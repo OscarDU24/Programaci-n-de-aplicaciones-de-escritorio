@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ni.edu.uam.tarea1.ClaseController"
+      spacing="15"
+      alignment="CENTER">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+    <Label text="Registrar Clase"/>
+    <GridPane hgap="10" vgap="10">
+        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="txtNombre"
+                   promptText="Nombre de la clase"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="0"/>
+        <Label text="Profesor:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="txtProfesor"
+                   promptText="Nombre del profesor"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="1"/>
+        <Label text="Fecha:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="txtFecha"
+                   promptText="DD/MM/AAAA"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="2"/>
+        <Label text="Aula:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="txtAula"
+                   promptText="Ej: A-201"
+                   GridPane.columnIndex="1"
+                   GridPane.rowIndex="3"/>
+    </GridPane>
+    <Button text="Registrar"
+            onAction="#registrarClase"/>
+    <Button text="Volver"
+            onAction="#volverMenu"/>
+    <Label fx:id="lblMensaje"/>
+</VBox>

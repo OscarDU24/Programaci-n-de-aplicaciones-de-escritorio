@@ -1,1 +1,17 @@
-Aqui ira la documentacion general
+Sistema de registro de clases que muestre dichos registros.
+
+Paso 1: Creación de FXML.
+
+clase.fxml: Para registrar la información relacionada a una asignatura (Nombre, docente, fecha en la que se dará, aula)
+login.fxml: Para acceder a la aplicación (Se usará el usuario admin, y la contraseña 1234)
+menu.xml: Encargada de seleccionar las 3 opciones de la App (Registrar, observar, cerrar sesión).
+verRegistros.fxml: La función que dejara ver lo registrado.
+
+Clases:
+
+Clase: La clase que se encargará de determinar los objetos que el programa necesitará para realizar las funciones.
+ClaseController: El controlador que se encargará de administrar los valores recibidos de la interfaz.
+Datos: Un almacenamiento temporal de la información haciendo uso de ArrayList.
+VerRegistrosController: Encargada de mostrar los datos dentro de la App y no en la terminal.
+MenuController y LoginController: Controladores secundarios que se encargarán de funciones triviales.
+MainApp: El consolidador, el archivo que se ejecuta para iniciar la App.
