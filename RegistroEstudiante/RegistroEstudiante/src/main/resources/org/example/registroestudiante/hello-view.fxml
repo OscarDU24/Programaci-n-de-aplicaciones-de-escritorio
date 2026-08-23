@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="600" prefWidth="700" spacing="10" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.registroestudiante.HelloController">
+
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="REGISTRO DE ESTUDIANTES" />
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefWidth="80" text="Carnet:" />
+        <TextField id="txtCarnet" fx:id="txtCarnet" prefWidth="500" promptText="Ingrese el carnet" />
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefWidth="80" text="Nombre:" />
+        <TextField id="txtNombre" fx:id="txtNombre" prefWidth="500" promptText="Ingrese el nombre" />
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefWidth="80" text="Apellido:" />
+        <TextField id="txtApellido" fx:id="txtApellido" prefWidth="500" promptText="Ingrese el apellido" />
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label prefWidth="80" text="Carrera:" />
+        <TextField id="txtCarrera" fx:id="txtCarrera" prefWidth="500" promptText="Ingrese la carrera" />
+    </HBox>
+
+    <HBox alignment="CENTER" prefHeight="25.0" prefWidth="643.0" spacing="15">
+
+        <Button id="txtAgregar" onAction="#ingresarEstudiante" prefWidth="120" text="Agregar" />
+
+        <Button id="txtEditar" onAction="#editarEstudiante" prefWidth="120" text="Editar" />
+
+        <Button id="txtEliminar" onAction="#eliminarEstudiante" prefHeight="25.0" prefWidth="114.0" text="Eliminar" />
+      <Button id="txtLimpiar" mnemonicParsing="false" onAction="#limpiarCampos" prefHeight="25.0" prefWidth="114.0" text="Limpiar" />
+
+    </HBox>
+
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="ESTUDIANTES REGISTRADOS" />
+
+    <TableView id="tablaEstudiantes" fx:id="tablaEstudiantes" prefHeight="300" prefWidth="650">
+
+        <columns>
+
+            <TableColumn fx:id="colCarnet" prefWidth="150" text="Carnet" />
+
+            <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
+
+            <TableColumn fx:id="colApellido" prefWidth="150" text="Apellido" />
+
+            <TableColumn fx:id="colCarrera" prefWidth="200" text="Carrera" />
+
+        </columns>
+
+    </TableView>
+
+</VBox>
