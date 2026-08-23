@@ -1,1 +1,41 @@
-Aqui ira la documentacion general
+DOCUMENTACIÓN - REGISTRO DE ESTUDIANTES
+
+1. NOMBRE DEL PROYECTO: Sistema de Registro de Estudiantes
+
+2. DESCRIPCIÓN: Este proyecto consiste en una aplicación de escritorio desarrollada en Java utilizando JavaFX. Su objetivo es permitir el registro y administración de información básica de estudiantes mediante una interfaz gráfica.
+
+3. TECNOLOGÍAS UTILIZADAS
+- Java 21
+- JavaFX 21
+- IntelliJ IDEA
+- Scene Builder
+- Git y GitHub
+
+4. FUNCIONALIDADES
+El sistema permite:
+- Registrar estudiantes.
+- Mostrar los estudiantes registrados en una tabla.
+- Editar la información de un estudiante.
+- Eliminar estudiantes.
+- Limpiar los campos de entrada.
+- Seleccionar un estudiante desde la tabla para modificar su información.
+
+5. DATOS DEL ESTUDIANTE
+El sistema almacena los siguientes datos:
+- Carnet
+- Nombre
+- Apellido
+- Carrera
+
+6. FUNCIONAMIENTO
+El usuario introduce los datos del estudiante en los campos correspondientes y presiona el botón AGREGAR. El estudiante se incorpora a la tabla.
+Para modificar un estudiante, se selecciona una fila de la tabla, se modifican los datos necesarios y se presiona EDITAR.
+Para eliminar un estudiante, se selecciona la fila correspondiente y se presiona ELIMINAR.
+El botón LIMPIAR permite borrar el contenido de los campos de entrada.
+
+7. INTERFAZ GRÁFICA
+La interfaz fue diseñada utilizando Scene Builder y está implementada mediante un archivo FXML. JavaFX se encarga de proporcionar los componentes gráficos y la interacción con el usuario.
+
+8. EJECUCIÓN
+Para ejecutar el proyecto se utiliza Java 21 y las dependencias de JavaFX configuradas en el archivo pom.xml.
+La clase Launcher se utiliza como punto de entrada para iniciar la aplicación.
