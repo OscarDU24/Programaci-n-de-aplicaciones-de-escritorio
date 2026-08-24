@@ -1,1 +1,368 @@
-Aqui ira la documentacion general
+===============================================================
+ SISTEMA DE REGISTRO DE ESTUDIANTES (JavaFX + FXML)
+ Documentacion del programa
+===============================================================
+
+Campos del estudiante: Carnet, Nombre, Apellido, Carrera, Semestre
+Funciones: Agregar, Editar, Eliminar
+
+Archivos del proyecto:
+  - Estudiante.java          (modelo)
+  - hello-view.fxml          (vista)
+  - HelloController.java     (controlador)
+  - Main.java                (punto de entrada)
+
+===============================================================
+1. Estudiante.java (Modelo)
+===============================================================
+
+Representa a un estudiante. Es un POJO (Plain Old Java Object):
+solo guarda datos, no contiene logica de la interfaz.
+
+    package org.example.tarea;
+
+    public class Estudiante {
+        private String carnet, nombre, apellido, carrera, semestre;
+
+        public Estudiante(String carnet, String nombre, String apellido,
+                           String carrera, String semestre) {
+            this.carnet = carnet;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.carrera = carrera;
+            this.semestre = semestre;
+        }
+
+        public String getCarnet() { return carnet; }
+        public void setCarnet(String carnet) { this.carnet = carnet; }
+
+        public String getNombre() { return nombre; }
+        public void setNombre(String nombre) { this.nombre = nombre; }
+
+        public String getApellido() { return apellido; }
+        public void setApellido(String apellido) { this.apellido = apellido; }
+
+        public String getCarrera() { return carrera; }
+        public void setCarrera(String carrera) { this.carrera = carrera; }
+
+        public String getSemestre() { return semestre; }
+        public void setSemestre(String semestre) { this.semestre = semestre; }
+    }
+
+Elemento -> Para que sirve
+---------------------------------------------------------------
+private String carnet, nombre, apellido, carrera, semestre;
+    Son los atributos que guardan la informacion de cada
+    estudiante. Son private para que solo se puedan modificar a
+    traves de los metodos de la clase (encapsulamiento).
+
+public Estudiante(...)
+    Es el constructor. Se ejecuta al crear un nuevo objeto
+    (new Estudiante(...)) y asigna los valores recibidos a los
+    atributos.
+
+public String getCarnet() (y los demas get...)
+    Son los getters. Sirven para leer el valor de un atributo
+    desde fuera de la clase. La TableView los usa automaticamente
+    para mostrar los datos en las columnas.
+
+public void setCarnet(String carnet) (y los demas set...)  [NUEVO]
+    Son los setters. Permiten modificar un atributo de un
+    estudiante que ya existe. Se agregaron para poder implementar
+    Editar: sin ellos no habria forma de cambiar los datos de un
+    objeto ya creado.
+
+===============================================================
+2. hello-view.fxml (Vista)
+===============================================================
+
+Describe como se ve la ventana. Se puede seguir editando
+visualmente en Scene Builder.
+
+    <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="org.example.tarea.HelloController"
+          prefHeight="550" prefWidth="750">
+
+        <Label text="Registro de Estudiantes"/>
+
+        <GridPane hgap="10" vgap="10">
+            <TextField fx:id="txtCarnet" GridPane.rowIndex="0" GridPane.columnIndex="1" .../>
+            <TextField fx:id="txtNombre" GridPane.rowIndex="1" GridPane.columnIndex="1" .../>
+            <TextField fx:id="txtApellido" GridPane.rowIndex="2" GridPane.columnIndex="1" .../>
+            <TextField fx:id="txtCarrera" GridPane.rowIndex="3" GridPane.columnIndex="1" .../>
+            <TextField fx:id="txtSemestre" GridPane.rowIndex="4" GridPane.columnIndex="1" .../>
+
+            <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                <Button text="Agregar" onAction="#agregarEstudiante"/>
+                <Button text="Editar" onAction="#editarEstudiante"/>
+                <Button text="Eliminar" onAction="#eliminarEstudiante"/>
+            </HBox>
+        </GridPane>
+
+        <TableView fx:id="tabla" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colCarnet" text="Carnet"/>
+                <TableColumn fx:id="colNombre" text="Nombre"/>
+                <TableColumn fx:id="colApellido" text="Apellido"/>
+                <TableColumn fx:id="colCarrera" text="Carrera"/>
+                <TableColumn fx:id="colSemestre" text="Semestre"/>
+            </columns>
+        </TableView>
+    </VBox>
+
+Elemento -> Para que sirve
+---------------------------------------------------------------
+<GridPane hgap="10" vgap="10">
+    Contenedor tipo cuadricula (filas y columnas). hgap/vgap son
+    los espacios horizontal y vertical entre celdas.
+
+<TextField fx:id="txtCarnet" .../> (y los demas)
+    Campos de texto donde el usuario escribe o donde se cargan
+    los datos del estudiante seleccionado para editarlo.
+
+<HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1">  [NUEVO]
+    Contenedor horizontal que agrupa los 3 botones en una sola
+    celda del GridPane, con solo 10px entre ellos. Antes, cada
+    boton estaba en su propia columna ancha del grid, por eso se
+    veian muy separados.
+
+<Button text="Agregar" onAction="#agregarEstudiante"/>
+    Boton que crea un nuevo estudiante. onAction conecta el clic
+    con el metodo agregarEstudiante() del controlador.
+
+<Button text="Editar" onAction="#editarEstudiante"/>  [NUEVO]
+    Boton que actualiza los datos del estudiante actualmente
+    seleccionado en la tabla.
+
+<Button text="Eliminar" onAction="#eliminarEstudiante"/>  [NUEVO]
+    Boton que borra de la tabla al estudiante seleccionado.
+
+<TableView fx:id="tabla" VBox.vgrow="ALWAYS">
+    Tabla que muestra a todos los estudiantes. VBox.vgrow="ALWAYS"
+    hace que crezca si se agranda la ventana.
+
+<TableColumn fx:id="colCarnet" text="Carnet"/> (y las demas)
+    Cada columna de la tabla. text es el titulo visible; fx:id es
+    como la referencia el controlador.
+
+===============================================================
+3. HelloController.java (Controlador)
+===============================================================
+
+Conecta el FXML con la logica del programa: recibe los eventos
+de los botones y administra la lista de estudiantes.
+
+    public class HelloController implements Initializable {
+
+        @FXML private TextField txtCarnet, txtNombre, txtApellido, txtCarrera, txtSemestre;
+        @FXML private TableView<Estudiante> tabla;
+        @FXML private TableColumn<Estudiante, String> colCarnet, colNombre,
+                colApellido, colCarrera, colSemestre;
+
+        private final ObservableList<Estudiante> lista =
+                FXCollections.observableArrayList();
+
+        private Estudiante estudianteSeleccionado = null;
+
+        @Override
+        public void initialize(URL url, ResourceBundle rb) {
+            colCarnet.setCellValueFactory(new PropertyValueFactory<>("carnet"));
+            // ...resto de columnas
+            tabla.setItems(lista);
+
+            tabla.getSelectionModel().selectedItemProperty()
+                .addListener((obs, anterior, nuevo) -> {
+                    if (nuevo != null) {
+                        estudianteSeleccionado = nuevo;
+                        txtCarnet.setText(nuevo.getCarnet());
+                        // ...resto de campos
+                    }
+                });
+        }
+
+        @FXML
+        private void agregarEstudiante() {
+            if (!camposValidos()) return;
+            lista.add(new Estudiante(txtCarnet.getText().trim(), ...));
+            limpiarCampos();
+        }
+
+        @FXML
+        private void editarEstudiante() {
+            if (estudianteSeleccionado == null) {
+                mostrarAlerta("Sin seleccion", "Selecciona un estudiante.");
+                return;
+            }
+            if (!camposValidos()) return;
+
+            estudianteSeleccionado.setCarnet(txtCarnet.getText().trim());
+            // ...resto de setters
+            tabla.refresh();
+            limpiarCampos();
+            estudianteSeleccionado = null;
+        }
+
+        @FXML
+        private void eliminarEstudiante() {
+            Estudiante seleccionado = tabla.getSelectionModel().getSelectedItem();
+            if (seleccionado == null) {
+                mostrarAlerta("Sin seleccion", "Selecciona un estudiante.");
+                return;
+            }
+            lista.remove(seleccionado);
+            limpiarCampos();
+        }
+
+        private boolean camposValidos() { /* valida que nada este vacio */ }
+        private void limpiarCampos() { /* limpia los TextField y la seleccion */ }
+        private void mostrarAlerta(String titulo, String mensaje) { /* ventana emergente */ }
+    }
+
+Elemento -> Para que sirve
+---------------------------------------------------------------
+public class HelloController implements Initializable
+    Declara la clase HelloController. "implements Initializable"
+    significa que la clase cumple el "contrato" de esa interfaz de
+    JavaFX, lo que la OBLIGA a definir el metodo
+    initialize(URL url, ResourceBundle rb). Gracias a esto,
+    JavaFX ejecuta automaticamente ese metodo justo despues de
+    cargar el FXML y de inyectar todos los @FXML (TextField,
+    tabla, etc.), pero antes de que el usuario vea la ventana.
+    Ahi es donde se configuran las columnas de la tabla y el
+    listener de seleccion, porque ya se garantiza que los
+    elementos existen.
+
+@FXML private TextField txtCarnet; (y similares)
+    El @FXML conecta esta variable de Java con el elemento del
+    mismo fx:id en el FXML. Asi, txtCarnet en Java es exactamente
+    ese campo de texto que ve el usuario.
+
+ObservableList<Estudiante> lista = FXCollections.observableArrayList();
+    Lista especial de JavaFX. Cuando se le agrega o quita un
+    elemento, la tabla se actualiza sola en pantalla.
+
+Estudiante estudianteSeleccionado = null;  [NUEVO]
+    Variable que guarda una referencia al estudiante que el
+    usuario selecciono en la tabla, para saber cual editar cuando
+    se presiona el boton "Editar". Empieza en null porque al abrir
+    el programa no hay ninguna seleccion.
+
+tabla.getSelectionModel().selectedItemProperty().addListener(...)  [NUEVO]
+    Es un "escucha de cambios": se ejecuta automaticamente cada
+    vez que el usuario hace clic en una fila distinta de la tabla.
+    Ahi se guarda esa fila en estudianteSeleccionado y se copian
+    sus datos a los TextField, para poder editarlos.
+
+agregarEstudiante()
+    Valida los campos, crea un nuevo Estudiante con los datos
+    escritos y lo agrega a la lista.
+
+editarEstudiante()  [NUEVO]
+    Primero valida que haya un estudiante seleccionado (si no,
+    muestra alerta y no hace nada). Luego usa los setters del
+    objeto ya seleccionado para actualizar sus datos con lo que
+    hay en los TextField.
+
+tabla.refresh()  [NUEVO]
+    Fuerza a la tabla a redibujarse. Es necesario porque los
+    atributos String normales no avisan solos a la tabla cuando
+    cambian (a diferencia de agregar o quitar de un
+    ObservableList, que si se detecta automaticamente).
+
+eliminarEstudiante()  [NUEVO]
+    Toma el estudiante seleccionado con
+    tabla.getSelectionModel().getSelectedItem() y lo quita de la
+    lista con lista.remove(...).
+
+camposValidos()
+    Metodo auxiliar que revisa que ningun TextField este vacio
+    antes de agregar o editar. Si falta algo, muestra una alerta
+    y devuelve false para cancelar la operacion.
+
+limpiarCampos()
+    Borra el texto de todos los TextField y quita la seleccion de
+    la tabla, dejando el formulario listo para un nuevo registro.
+
+mostrarAlerta(titulo, mensaje)
+    Muestra una ventana emergente (Alert) para avisarle algo al
+    usuario: campos vacios, carnet duplicado, o que no hay ningun
+    estudiante seleccionado en la tabla. Se usa en las 3
+    operaciones para no repetir el mismo codigo de alerta cada
+    vez.
+
+===============================================================
+4. Main.java (Punto de entrada)
+===============================================================
+
+Es la clase que arranca la aplicacion.
+
+    package org.example.tarea;
+
+    public class Main extends Application {
+
+        @Override
+        public void start(Stage stage) throws Exception {
+            Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+            stage.setScene(new Scene(root, 750, 550));
+            stage.setTitle("Registro de Estudiantes");
+            stage.show();
+        }
+
+        public static void main(String[] args) {
+            launch(args);
+        }
+    }
+
+Elemento -> Para que sirve
+---------------------------------------------------------------
+extends Application
+    Toda aplicacion JavaFX debe heredar de esta clase para poder
+    ejecutarse como programa grafico.
+
+FXMLLoader.load(getClass().getResource("hello-view.fxml"))
+    Busca el archivo FXML (debe estar en el mismo paquete) y lo
+    convierte en la interfaz visual, creando automaticamente una
+    instancia de HelloController.
+
+stage.setScene(new Scene(root, 750, 550))
+    Crea el "lienzo" (Scene) con el contenido cargado y define el
+    tamano de la ventana en pixeles.
+
+stage.show()
+    Hace visible la ventana.
+
+public static void main(String[] args)
+    Punto de entrada de Java. Llama a launch(args), que arranca
+    el motor de JavaFX y termina llamando a start().
+
+===============================================================
+5. Flujo completo del programa
+===============================================================
+
+  1. main() llama a launch(), que arranca JavaFX y ejecuta
+     start() en Main.java.
+  2. start() carga hello-view.fxml, lo que crea la ventana y una
+     instancia de HelloController.
+  3. JavaFX ejecuta initialize() automaticamente: se enlazan las
+     columnas de la tabla y se activa el "escucha" de seleccion
+     de filas.
+  4. El usuario llena los campos y presiona Agregar -> se crea un
+     nuevo Estudiante y aparece en la tabla.
+  5. El usuario hace clic en una fila de la tabla -> sus datos se
+     copian automaticamente a los campos de texto.
+  6. El usuario modifica algun campo y presiona Editar -> se
+     actualiza ese mismo estudiante con los setters y
+     tabla.refresh() muestra el cambio.
+  7. El usuario selecciona una fila y presiona Eliminar -> ese
+     estudiante se quita de la lista y desaparece de la tabla.
+  8. En cualquier paso, si falta un dato o no hay seleccion,
+     mostrarAlerta() avisa al usuario antes de continuar.
+
+===============================================================
+NOTA
+===============================================================
+
+El archivo hello-view.fxml debe estar en el mismo paquete
+(org.example.tarea) que las clases .java, y su fx:controller
+debe apuntar exactamente a org.example.tarea.HelloController
+para que la conexion funcione al ejecutar el programa.
