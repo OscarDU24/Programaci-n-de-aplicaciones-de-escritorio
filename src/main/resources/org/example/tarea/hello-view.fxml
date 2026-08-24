@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.HBox?>
+<VBox alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.tarea.HelloController" prefHeight="550" prefWidth="750" >
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Label text="Registro de Estudiantes"/>
+
+    <GridPane hgap="10" vgap="10" >
+        <Label text="Carnet:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCarnet" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200" promptText="Ingrese su carnet"/>
+
+        <Label text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtNombre" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="200" promptText="Ingrese su nombre"/>
+
+        <Label text="Apellido:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtApellido" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="200" promptText="Ingrese su apellido"/>
+
+        <Label text="Carrera:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCarrera" GridPane.rowIndex="3" GridPane.columnIndex="1" prefWidth="200" promptText="Ingrese su carrera"/>
+
+        <Label text="Semestre:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtSemestre" GridPane.rowIndex="4" GridPane.columnIndex="1" prefWidth="200" promptText="Ingrese el semestre cursando"/>
+
+        <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1">
+            <Button text="Agregar" onAction="#agregarEstudiante"/>
+            <Button text="Editar" onAction="#editarEstudiante"/>
+            <Button text="Eliminar" onAction="#eliminarEstudiante"/>
+        </HBox>
+
+    </GridPane>
+
+    <TableView fx:id="tabla" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colCarnet" text="Carnet"/>
+            <TableColumn fx:id="colNombre" text="Nombre"/>
+            <TableColumn fx:id="colApellido" text="Apellido"/>
+            <TableColumn fx:id="colCarrera" text="Carrera"/>
+            <TableColumn fx:id="colSemestre" text="Semestre"/>
+        </columns>
+    </TableView>
+</VBox>
